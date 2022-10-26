@@ -1,21 +1,26 @@
 from tkinter import *
 from tkinter import ttk
-from turtle import bgcolor
 from numpy import *
+from PIL import Image
 
 root = Tk( )
 fobj = open("five-letter-words.txt", "r")
 
 # Initializing the frames
-start_frame = ttk.Frame(root, style="#ffffff")
-eliminate_frame = ttk.Frame(root)
-loading_frame = ttk.Frame(root)
-green_tile_frame = ttk.Frame(root)
-yellow_tile_frame = ttk.Frame(root)
-output_frame = ttk.Frame(root)
+start_frame = Frame(root, bg="white")
+eliminate_frame = Frame(root)
+loading_frame = Frame(root)
+green_tile_frame = Frame(root)
+yellow_tile_frame = Frame(root)
+output_frame = Frame(root)
 
-start = ttk.Button(master=start_frame, text="Start")
-start.pack( )
-start_frame.pack(padx=100,pady=100)
+# Everything in the start frame
+img = Image.open("start.png")
+img = img.resize((200,100), Image.ANTIALIAS)
+img.show("sss")
+start_img = PhotoImage(img)
+start = Button(master=start_frame, image=start_img)
+start.grid(row=50, column=50, padx=150, pady=150)
+start_frame.pack( )
 
 root.mainloop( )
