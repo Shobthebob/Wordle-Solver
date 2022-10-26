@@ -1,8 +1,8 @@
-package rename;
-import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.ArrayList;
 import java.util.Scanner;
 import java.io.FileReader;
+
 
 public class solver {
 
@@ -64,6 +64,9 @@ public class solver {
 		}
 	}	
 	
+	/**
+	 * @param args
+	 */
 	public static void main(String[] args) {
 
 		// Surrounding the program with try catch so that no error occurs 
