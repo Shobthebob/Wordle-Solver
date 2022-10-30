@@ -30,6 +30,17 @@ green_tile_frame = Frame(root)
 yellow_tile_frame = Frame(root)
 output_frame = Frame(root)
 
+# Everything in the start frame
+def start(frm):
+
+	frm.grid_forget( )
+
+	back_l = Label(start_frame, image=background)
+	back_l.place(x=0, y=0)
+	start = Button(master=start_frame, image=start_img, borderwidth=-10, command=lambda: eliminate(start_frame))
+	start.grid(row=50, column=50, padx=100, pady=75)
+	start_frame.grid(row=1,column=1)
+
 #Everything in the eliminate frame
 def eliminate(frm):
 
@@ -42,17 +53,6 @@ def eliminate(frm):
 	comment.grid(row=1,column=0)
 	letters_not_there.grid(row=2,column=0)
 	eliminate_frame.grid(row=1, column=1)
-
-# Everything in the start frame
-def start(frm):
-
-	frm.grid_forget( )
-
-	back_l = Label(start_frame, image=background)
-	back_l.place(x=0, y=0)
-	start = Button(master=start_frame, image=start_img, borderwidth=-10, command=lambda: eliminate(start_frame))
-	start.grid(row=50, column=50, padx=100, pady=75)
-	start_frame.grid(row=1,column=1)
 
 start(hide_frame)
 
