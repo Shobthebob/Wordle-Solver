@@ -8,7 +8,6 @@ warnings.filterwarnings("ignore")
 
 root = CTk( )
 root.title("Wordle Solver")
-root.geometry(f"{200}x{200}")
 set_appearance_mode("System")
 set_default_color_theme("green")
 
@@ -16,37 +15,68 @@ fobj = open("five-letter-words.txt", "r")
 
 # Initializing the frames
 hide_frame = CTkFrame(root)
-start_frame = CTkFrame(root)
+start_frame = Frame(root)
 eliminate_frame = CTkFrame(root)
 loading_frame = CTkFrame(root)
 green_tile_frame = CTkFrame(root)
 yellow_tile_frame = CTkFrame(root)
 output_frame = CTkFrame(root)
 
-# Everything in the start frame
+# Declaring and postitioning the back and next buttons
+back = CTkButton(master=root, text="Back", width=80)
+nextt = CTkButton(master=root, text="Next", width=80)
+
+# To hide/show the next & back buttons
+def hide_show(curr_frame):
+	if(curr_frame=="start_frame"):
+		back.grid_forget( )
+		nextt.grid_forget( )
+	else:
+		back.grid(row=1, column=0, ipadx=10)
+		nextt.grid(row=1, column=1, ipadx=10)
+
+
+# Everything in the start frame (main frame)
 def start(frm):
 
+	hide_show("start_frame")
 	frm.grid_forget( )
+	root.geometry(f"{200}x{134}")
 
-	start = CTkButton(master=start_frame, text="Start", borderwidth=0, command=lambda: eliminate(start_frame)) # image=start_img, 
+	global curr_frame
+	curr_frame = "start_frame"
+
+	start = CTkButton(master=start_frame, text="Start", width=60, command=lambda: eliminate(start_frame)) 
+	leave = CTkButton(master=start_frame, text="Exit", width=60, command=root.destroy)
 	
-	start.grid(row=0, column=0)
-	start_frame.grid(row=1,column=1)
+	start.grid(row=1, column=0, padx=4)
+	leave.grid(row=1, column=1, padx=11)
 
-#Everything in the eliminate frame
+	start_frame.config(background="#212325")
+	start_frame.grid(row=0, column=0, pady=50, padx=29)
+	return
+
+#Everything in the frame that asks for grey tiled letters
 def eliminate(frm):
 
+	hide_show("eliminate_frame")
 	frm.grid_forget( )
+	root.geometry(f"{220}x{134}")
+
+	global curr_frame
+	curr_frame = "eliminate_frame"
 
 	enter = CTkLabel(master=eliminate_frame, text="Enter the letters that are NOT there")
-	comment = CTkLabel(master=eliminate_frame, text="[No Commas Required]")
-
-	letters_not_there = CTkEntry(master=eliminate_frame, placeholder_text="Enter:", width=1)
+	comment = CTkLabel(master=eliminate_frame, text="[GREY TILED LETTERS]")
+	letters_not_there = CTkEntry(master=eliminate_frame, placeholder_text="No Commas Required")
+	# back.config(state="disabled")
 	
-	enter.grid(row=0,column=0)
-	comment.grid(row=1,column=0)
-	letters_not_there.grid(row=2,column=0)
-	eliminate_frame.grid(row=1, column=1)
+	enter.grid(row=0, column=0, ipadx=10)
+	comment.grid(row=1, column=0)
+	letters_not_there.grid(row=2, column=0, ipadx=25, pady=10)
+
+	eliminate_frame.grid(row=0, column=0, columnspan=2)
+	return
 
 start(hide_frame)
 
