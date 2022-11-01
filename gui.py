@@ -15,7 +15,7 @@ fobj = open("five-letter-words.txt", "r")
 
 # Initializing the frames
 hide_frame = CTkFrame(root)
-start_frame = Frame(root)
+start_frame = CTkFrame(root)
 eliminate_frame = CTkFrame(root)
 loading_frame = CTkFrame(root)
 green_tile_frame = CTkFrame(root)
@@ -41,7 +41,7 @@ def start(frm):
 
 	hide_show("start_frame")
 	frm.grid_forget( )
-	root.geometry(f"{200}x{134}")
+	root.geometry(f"{220}x{133}")
 
 	global curr_frame
 	curr_frame = "start_frame"
@@ -49,11 +49,10 @@ def start(frm):
 	start = CTkButton(master=start_frame, text="Start", width=60, command=lambda: eliminate(start_frame)) 
 	leave = CTkButton(master=start_frame, text="Exit", width=60, command=root.destroy)
 	
-	start.grid(row=1, column=0, padx=4)
-	leave.grid(row=1, column=1, padx=11)
+	start.grid(row=1, column=0, padx=35, pady = 50)
+	leave.grid(row=1, column=1)
 
-	start_frame.config(background="#212325")
-	start_frame.grid(row=0, column=0, pady=50, padx=29)
+	start_frame.grid(row=0, column=0, ipadx=32, ipady=43)
 	return
 
 #Everything in the frame that asks for grey tiled letters
