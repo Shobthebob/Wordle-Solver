@@ -1,6 +1,6 @@
 # Wordle-Solver
 
-A solver for the wordle game.
+A solver for the wordle game. </br>
 The text file includes all the five letter words thats there in the wordle dictionary
 
 Solver_initial = java file that was my original code made in java </br>
