@@ -13,14 +13,16 @@ set_default_color_theme("green")
 
 fobj = open("five-letter-words.txt", "r")
 words = array(fobj.readlines())
-gstr = ""
+
+global gstr
+gstr = " "
 
 # Initializing the frames
 hide_frame = CTkFrame(root)
 start_frame = CTkFrame(root)
 eliminate_frame = CTkFrame(root)
 loading_frame = CTkFrame(root)
-green_tile_frame = CTkFrame(root)
+green_tile_frame = CTkFrame(root, width=100)
 yellow_tile_frame = CTkFrame(root)
 output_frame = CTkFrame(root)
 
@@ -85,59 +87,51 @@ def eliminate(frm):
 # Everything in the frame that asks for green tiled chars
 def greenTile(frm):
 
-	def ver(ch1, ch2, ch3, ch4, ch5):
-
-		st = ""
-
-		val1 = len(ch1.get( ))
-		val2 = len(ch2.get( ))
-		val3 = len(ch3.get( ))
-		val4 = len(ch4.get( ))
-		val5 = len(ch5.get( ))
-		if(val1>1) or (val2>1) or (val3>1) or (val4>1) or (val5>1):
-			label = CTkLabel(master=green_tile_frame, text="[ONLY 1 CHAR/BLANKSPACE PER ENTRY]")
-			label.grid(row=4, column=0, columnspan=5)
+	def check(ch):
+		
+		ch = ch.get( )
+		if((ch=="") or (ch.isalpha( ))) and (len(ch)<2):
+			nextt.configure(state="normal")
 		else:
-			li = [ch1.get( ),ch2.get( ),ch3.get( ),ch4.get( ),ch5.get( )]
-			for i in li:
-				if(i==""):
-					st+="."
-				else:
-					st+=f"{i}"
-			global gstr
-			gstr = st
-			verify.grid_forget( )
-			nextt.configure(command=lambda: greenTile(eliminate_frame))
-			nextt.grid(row=1, column=1, ipadx=10)
-			
+			nextt.configure(state="disabled")
+			comment.configure(text="[ONLY 1 CHAR/BLANKSPACE PER ENTRY]")			
 
 	hide_show("green_tile_frame")
 	frm.grid_forget( )
-	nextt.grid_forget( )
-	# root.geometry( )
+	root.geometry(f"{210}x{152}")
 
+	# Different lables on the screen
 	enter1 = CTkLabel(master=green_tile_frame, text="Type in the letters with green tiles")
 	enter2 = CTkLabel(master=green_tile_frame, text="Leave the rest blank")
 	comment = CTkLabel(master=green_tile_frame, text="[1 Block = 1 Char]")
 
-	c1 = CTkEntry(master=green_tile_frame, width=25, justify=CENTER)
-	c2 = CTkEntry(master=green_tile_frame, width=25, justify=CENTER)
-	c3 = CTkEntry(master=green_tile_frame, width=25, justify=CENTER)
-	c4 = CTkEntry(master=green_tile_frame, width=25, justify=CENTER)
-	c5 = CTkEntry(master=green_tile_frame, width=25, justify=CENTER)
+	ch1 = StringVar( )
+	ch2 = StringVar( )
+	ch3 = StringVar( )
+	ch4 = StringVar( )
+	ch5 = StringVar( )
+	ch1.trace_add("write", lambda: check(ch1))
+	ch2.trace_add("write", lambda: check(ch2))
+	ch2.trace_add("write", lambda: check(ch3))
+	ch3.trace_add("write", lambda: check(ch4))
+	ch4.trace_add("write", lambda: check(ch5))
 
+	# The 5 entry boxes 
+	c1 = CTkEntry(master=green_tile_frame, width=25, justify=CENTER, textvariable=ch1)
+	c2 = CTkEntry(master=green_tile_frame, width=25, justify=CENTER, textvariable=ch2)
+	c3 = CTkEntry(master=green_tile_frame, width=25, justify=CENTER, textvariable=ch3)
+	c4 = CTkEntry(master=green_tile_frame, width=25, justify=CENTER, textvariable=ch4)
+	c5 = CTkEntry(master=green_tile_frame, width=25, justify=CENTER, textvariable=ch5)
+
+	# Placing everything using grid( )
 	enter1.grid(row=0, column=0, columnspan=5)
 	enter2.grid(row=1, column=0, columnspan=5)
 	comment.grid(row=2, column=0, columnspan=5)
-	c1.grid(row=3,column=0,sticky="nsew", ipady=5)
-	c2.grid(row=3,column=1,sticky="nsew")
-	c3.grid(row=3,column=2,sticky="nsew")
-	c4.grid(row=3,column=3,sticky="nsew")
-	c5.grid(row=3,column=4,sticky="nsew")
-
-	verify = CTkButton(master=root, text="Verify", width=10, command=lambda: ver(c1,c2,c3,c4,c5))
-	verify.grid(row=1, column=1, ipadx=10)
-
+	c1.grid(row=3,column=0,sticky="ew")
+	c2.grid(row=3,column=1,sticky="ew")
+	c3.grid(row=3,column=2,sticky="ew")
+	c4.grid(row=3,column=3,sticky="ew")
+	c5.grid(row=3,column=4,sticky="ew")
 	green_tile_frame.grid(row=0, column=0, columnspan=3)
 	return
 
