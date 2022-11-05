@@ -63,12 +63,23 @@ def start(frm):
 # Everything in the frame that asks for grey tiled letters
 def eliminate(frm):
 
+	# def blank( ):
+
+	# 	st = string.get( )
+	# 	if(st==""):
+	# 		nextt.configure(state="disabled")
+	# 	else:
+	# 		nextt.configure(state="normal")
+
 	hide_show("eliminate_frame")
 	frm.grid_forget( )
 	root.geometry(f"{220}x{134}")
 
 	global curr_frame
 	curr_frame = "eliminate_frame"
+
+	# string = StringVar( )
+	# string.trace_add("write", blank)
 
 	enter = CTkLabel(master=eliminate_frame, text="Enter the letters that are NOT there")
 	comment = CTkLabel(master=eliminate_frame, text="[GREY TILED LETTERS]")
