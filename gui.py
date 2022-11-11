@@ -35,8 +35,9 @@ def hide_show(curr_frame):
 	if(curr_frame=="start_frame"):
 		back.grid_forget( )
 		nextt.grid_forget( )
-	if(curr_frame=="green_tile_frame"):
+	elif(curr_frame=="green_tile_frame"):
 		back.grid_forget( )
+		nextt.grid(row=1,column=1, ipadx=83)
 	else:
 		back.grid(row=1, column=0, ipadx=10)
 		nextt.grid(row=1, column=1, ipadx=10)
@@ -63,23 +64,12 @@ def start(frm):
 # Everything in the frame that asks for grey tiled letters
 def eliminate(frm):
 
-	# def blank( ):
-
-	# 	st = string.get( )
-	# 	if(st==""):
-	# 		nextt.configure(state="disabled")
-	# 	else:
-	# 		nextt.configure(state="normal")
-
 	hide_show("eliminate_frame")
 	frm.grid_forget( )
 	root.geometry(f"{220}x{134}")
 
 	global curr_frame
 	curr_frame = "eliminate_frame"
-
-	# string = StringVar( )
-	# string.trace_add("write", blank)
 
 	enter = CTkLabel(master=eliminate_frame, text="Enter the letters that are NOT there")
 	comment = CTkLabel(master=eliminate_frame, text="[GREY TILED LETTERS]")
@@ -102,17 +92,17 @@ def greenTile(frm):
 		
 		ch = ch.get( )
 		if((ch=="") or (ch.isalpha( ))) and (len(ch)<2):
-			nextt.configure(state="normal")
+			nextt.configure(state="normal", justify=CENTER)
 		else:
 			nextt.configure(state="disabled")
 			comment.configure(text="[ONLY 1 CHAR/BLANKSPACE PER ENTRY]")			
 
 	hide_show("green_tile_frame")
 	frm.grid_forget( )
-	root.geometry(f"{210}x{152}")
+	root.geometry(f"{289}x{140}")
 
 	# Different lables on the screen
-	enter1 = CTkLabel(master=green_tile_frame, text="Type in the letters with green tiles")
+	enter1 = CTkLabel(master=green_tile_frame, text="Type in the letters with green tiles in their positions")
 	enter2 = CTkLabel(master=green_tile_frame, text="Leave the rest blank")
 	comment = CTkLabel(master=green_tile_frame, text="[1 Block = 1 Char]")
 
@@ -138,11 +128,11 @@ def greenTile(frm):
 	enter1.grid(row=0, column=0, columnspan=5)
 	enter2.grid(row=1, column=0, columnspan=5)
 	comment.grid(row=2, column=0, columnspan=5)
-	c1.grid(row=3,column=0,sticky="ew")
-	c2.grid(row=3,column=1,sticky="ew")
-	c3.grid(row=3,column=2,sticky="ew")
-	c4.grid(row=3,column=3,sticky="ew")
-	c5.grid(row=3,column=4,sticky="ew")
+	c1.grid(row=3,column=0,columnspan=4)
+	c2.grid(row=3,column=1,columnspan=3)
+	c3.grid(row=3,column=2,columnspan=2)
+	c4.grid(row=3,column=3,columnspan=1)
+	c5.grid(row=3,column=4,columnspan=1)
 	green_tile_frame.grid(row=0, column=0, columnspan=3)
 	return
 
