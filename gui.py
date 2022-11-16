@@ -15,7 +15,7 @@ fobj = open("five-letter-words.txt", "r")
 words = array(fobj.readlines())
 
 global gstr
-gstr = " "
+gstr = ""
 
 # Initializing the frames
 hide_frame = CTkFrame(root)
@@ -97,14 +97,16 @@ def greenTile(frm):
 			c3.configure(state="disabled")
 			c4.configure(state="disabled")
 			c5.configure(state="disabled")
-			comment.configure(text="[ONLY 1 ALPHABET/BLANKSPACE PER ENTRY]")
+			comment.configure(text="[ONLY 1 ALPHABET/BLANKSPACE PER ENTRY]", padx=4)
+			root.geometry(f"{276}x{140}")
 		else:
 			nextt.configure(state="normal")
 			c2.configure(state="normal")
 			c3.configure(state="normal")
 			c4.configure(state="normal")
 			c5.configure(state="normal")
-			comment.configure(text="Valid")				
+			comment.configure(text="Valid")		
+			root.geometry(f"{255}x{140}")		
 		return
 	def check2(cha2, index, mode):
 
@@ -116,7 +118,8 @@ def greenTile(frm):
 			c3.configure(state="disabled")
 			c4.configure(state="disabled")
 			c5.configure(state="disabled")
-			comment.configure(text="[ONLY 1 ALPHABET/BLANKSPACE PER ENTRY]")
+			comment.configure(text="[ONLY 1 ALPHABET/BLANKSPACE PER ENTRY]", padx=4)
+			root.geometry(f"{276}x{140}")
 		else:
 			nextt.configure(state="normal")
 			c1.configure(state="normal")
@@ -124,6 +127,7 @@ def greenTile(frm):
 			c4.configure(state="normal")
 			c5.configure(state="normal")
 			comment.configure(text="Valid")	
+			root.geometry(f"{255}x{140}")
 		return
 	def check3(cha3, index, mode):
 
@@ -135,7 +139,8 @@ def greenTile(frm):
 			c2.configure(state="disabled")
 			c4.configure(state="disabled")
 			c5.configure(state="disabled")
-			comment.configure(text="[ONLY 1 ALPHABET/BLANKSPACE PER ENTRY]")
+			comment.configure(text="[ONLY 1 ALPHABET/BLANKSPACE PER ENTRY]", padx=4)
+			root.geometry(f"{276}x{140}")
 		else:
 			nextt.configure(state="normal")
 			c1.configure(state="normal")
@@ -143,6 +148,7 @@ def greenTile(frm):
 			c4.configure(state="normal")
 			c5.configure(state="normal")
 			comment.configure(text="Valid")
+			root.geometry(f"{255}x{140}")
 		return
 	def check4(cha4, index, mode):
 
@@ -154,7 +160,8 @@ def greenTile(frm):
 			c2.configure(state="disabled")
 			c3.configure(state="disabled")
 			c5.configure(state="disabled")
-			comment.configure(text="[ONLY 1 ALPHABET/BLANKSPACE PER ENTRY]")
+			comment.configure(text="[ONLY 1 ALPHABET/BLANKSPACE PER ENTRY]", padx=4)
+			root.geometry(f"{276}x{140}")
 		else:
 			nextt.configure(state="normal")
 			c1.configure(state="normal")
@@ -162,6 +169,7 @@ def greenTile(frm):
 			c3.configure(state="normal")
 			c5.configure(state="normal")
 			comment.configure(text="Valid")	
+			root.geometry(f"{255}x{140}")
 		return
 	def check5(cha5, index, mode):
 
@@ -173,7 +181,8 @@ def greenTile(frm):
 			c2.configure(state="disabled")
 			c3.configure(state="disabled")
 			c4.configure(state="disabled")
-			comment.configure(text="[ONLY 1 ALPHABET/BLANKSPACE PER ENTRY]")
+			comment.configure(text="[ONLY 1 ALPHABET/BLANKSPACE PER ENTRY]", padx=4)
+			root.geometry(f"{276}x{140}")
 		else:
 			nextt.configure(state="normal")
 			c1.configure(state="normal")
@@ -181,12 +190,45 @@ def greenTile(frm):
 			c3.configure(state="normal")
 			c4.configure(state="normal")
 			comment.configure(text="Valid")	
+			root.geometry(f"{255}x{140}")
 		return
 	
+	def string( ):
+		if(c1.get()==""):
+			cha1 = "."
+		else:
+			cha1 = c1.get( )
+		
+		if(c2.get()==""):
+			cha2 = "."
+		else:
+			cha2 = c2.get( )
+		
+		if(c3.get()==""):
+			cha3 = "."
+		else:
+			cha3 = c3.get( )
+		
+		if(c4.get()==""):
+			cha4 = "."
+		else:
+			cha4 = c4.get( )
+		
+		if(c5.get()==""):
+			cha5 = "."
+		else:
+			cha5 = c5.get( )
+		
+		global gstr
+		gstr = cha1+cha2+cha3+cha4+cha5
+		gstr = gstr.upper( )
+		yellowTile(green_tile_frame)
+
 	hide_show("green_tile_frame")
 	frm.grid_forget( )
 	root.geometry(f"{255}x{140}")
-	nextt.configure(command=lambda: yellowTile(green_tile_frame))
+	nextt.configure(command=string)
+	# nextt.configure(command=lambda: yellowTile(green_tile_frame))
 
 	# Different lables on the screen
 	enter1 = CTkLabel(master=green_tile_frame, text="Type in the green tile letters in their positions")
@@ -231,7 +273,7 @@ def yellowTile(frm):
 		
 		cha1 = ch1.get()
 		
-		if(not cha1.isalpha( )):
+		if(not cha1.isalpha( )) and (cha1!=""):
 			nextt.configure(state="disabled")
 			c2.configure(state="disabled")
 			c3.configure(state="disabled")
@@ -249,7 +291,7 @@ def yellowTile(frm):
 		
 		cha2 = ch2.get()
 		
-		if(not cha2.isalpha( )):
+		if(not cha2.isalpha( )) and (cha2!=""):
 			nextt.configure(state="disabled")
 			c1.configure(state="disabled")
 			c3.configure(state="disabled")
@@ -267,7 +309,7 @@ def yellowTile(frm):
 		
 		cha3 = ch3.get()
 		
-		if(not cha3.isalpha( )):
+		if(not cha3.isalpha( )) and (cha3!=""):
 			nextt.configure(state="disabled")
 			c1.configure(state="disabled")
 			c2.configure(state="disabled")
@@ -285,7 +327,7 @@ def yellowTile(frm):
 		
 		cha4 = ch4.get()
 		
-		if(not cha4.isalpha( )):
+		if(not cha4.isalpha( )) and (cha4!=""):
 			nextt.configure(state="disabled")
 			c1.configure(state="disabled")
 			c2.configure(state="disabled")
@@ -303,7 +345,7 @@ def yellowTile(frm):
 		
 		cha5 = ch5.get()
 		
-		if(not cha5.isalpha( )):
+		if(not cha5.isalpha( )) and (cha5!=""):
 			nextt.configure(state="disabled")
 			c1.configure(state="disabled")
 			c2.configure(state="disabled")
