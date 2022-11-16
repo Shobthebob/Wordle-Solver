@@ -357,7 +357,6 @@ def yellowTile(frm):
 	yellow_tile_frame.grid(row=0, column=0, columnspan=3)
 	return
 
-
 start(hide_frame)
 
 root.mainloop( )
