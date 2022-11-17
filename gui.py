@@ -366,7 +366,7 @@ def yellowTile(frm):
 
 	enter1 = CTkLabel(master=yellow_tile_frame, text="Enter the yellow tile letter(s) respectively")
 	enter2 = CTkLabel(master=yellow_tile_frame, text="Eg: if 'M','E' are not at 3rd position\nthen you put those in the 3rd entry")
-	enter3 = CTkLabel(master=yellow_tile_frame, text="The same letter can be on diff entires")
+	enter3 = CTkLabel(master=yellow_tile_frame, text="[The same letter can be on diff entires]")
 
 	# The values that we input in the 5 entry boxes
 	ch1 = StringVar( )
