@@ -37,7 +37,7 @@ def hide_show(curr_frame):
 		nextt.grid_forget( )
 	elif(curr_frame=="green_tile_frame"):
 		back.grid_forget( )
-		nextt.grid(row=1,column=1, ipadx=83)
+		nextt.grid(row=1,column=1, ipadx=83, padx=4)
 	elif(curr_frame=="yellow_tile_frame"):
 		back.grid_forget( )
 		nextt.grid(row=1,column=1, ipadx=70)
