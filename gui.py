@@ -1,7 +1,6 @@
 from tkinter import *
 from tkinter import ttk
 from customtkinter import *
-from numpy import *
 import warnings
 
 warnings.filterwarnings("ignore")
@@ -12,10 +11,24 @@ set_appearance_mode("System")
 set_default_color_theme("green")
 
 fobj = open("five-letter-words.txt", "r")
-words = array(fobj.readlines())
+all_words = fobj.readlines()
+all_words = [(i.replace("\n","")).upper() for i in all_words]
 
 global gstr
 gstr = ""
+alphabets = ['A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z']
+alphabets_not_there = []
+
+def eliminate(letters_not_there):
+	print(f"{letters_not_there=}")
+	global alphabets
+	global all_words
+	for i in letters_not_there:
+		alphabets_not_there.append(i)
+		alphabets.remove(i)
+	print(f"{alphabets=}")
+	print(f"{alphabets_not_there=}")
+
 
 # Initializing the frames
 hide_frame = CTkFrame(root)
@@ -53,7 +66,7 @@ def start(frm):
 	frm.grid_forget( )
 	root.geometry(f"{220}x{133}")
 
-	start = CTkButton(master=start_frame, text="Start", width=60, command=lambda: eliminate(start_frame)) 
+	start = CTkButton(master=start_frame, text="Start", width=60, command=lambda: eliminateGUI(start_frame)) 
 	leave = CTkButton(master=start_frame, text="Exit", width=60, command=root.destroy)
 	
 	start.grid(row=1, column=0, padx=35, pady = 50)
@@ -63,7 +76,7 @@ def start(frm):
 	return
 
 # Everything in the frame that asks for grey tiled letters
-def eliminate(frm):
+def eliminateGUI(frm):
 
 	hide_show("eliminate_frame")
 	frm.grid_forget( )
@@ -74,7 +87,7 @@ def eliminate(frm):
 	letters_not_there = CTkEntry(master=eliminate_frame, placeholder_text="No Commas Required")
 
 	back.configure(command=lambda: start(eliminate_frame))
-	nextt.configure(command=lambda: greenTile(eliminate_frame))
+	nextt.configure(command=lambda: [greenTile(eliminate_frame), eliminate(letters_not_there.get( ).upper( ))])
 	
 	enter.grid(row=0, column=0, ipadx=10)
 	comment.grid(row=1, column=0)
@@ -365,8 +378,8 @@ def yellowTile(frm):
 	root.geometry(f"{230}x{144}")
 
 	enter1 = CTkLabel(master=yellow_tile_frame, text="Enter the yellow tile letter(s) respectively")
-	enter2 = CTkLabel(master=yellow_tile_frame, text="Eg: if 'M','E' are not at 3rd position\nthen you put those in the 3rd entry")
-	enter3 = CTkLabel(master=yellow_tile_frame, text="[The same letter can be on diff entires]")
+	enter2 = CTkLabel(master=yellow_tile_frame, text="Eg: if 'M','E' are yellow at the 3rd position\nthen you put those in the 3rd entry")
+	enter3 = CTkLabel(master=yellow_tile_frame, text="")
 
 	# The values that we input in the 5 entry boxes
 	ch1 = StringVar( )

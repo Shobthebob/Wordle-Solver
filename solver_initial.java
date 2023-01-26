@@ -4,7 +4,7 @@ import java.util.Scanner;
 import java.io.FileReader;
 
 
-public class solver {
+public class solver_initial {
 
 	// A function that removes any duplicate characters from a given string
 	public static String duplicateRemover(String str) {
