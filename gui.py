@@ -13,22 +13,10 @@ set_default_color_theme("green")
 fobj = open("five-letter-words.txt", "r")
 all_words = fobj.readlines()
 all_words = [(i.replace("\n","")).upper() for i in all_words]
+possible_words = []
 
-global gstr
-gstr = ""
+global_str = ""
 alphabets = ['A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z']
-alphabets_not_there = []
-
-def eliminate(letters_not_there):
-	print(f"{letters_not_there=}")
-	global alphabets
-	global all_words
-	for i in letters_not_there:
-		alphabets_not_there.append(i)
-		alphabets.remove(i)
-	print(f"{alphabets=}")
-	print(f"{alphabets_not_there=}")
-
 
 # Initializing the frames
 hide_frame = CTkFrame(root)
@@ -37,11 +25,16 @@ eliminate_frame = CTkFrame(root)
 loading_frame = CTkFrame(root)
 green_tile_frame = CTkFrame(root, width=100)
 yellow_tile_frame = CTkFrame(root)
+loading_frame = CTkProgressBar(root, mode="determinate")
 output_frame = CTkFrame(root)
 
 # Declaring and postitioning the back and next buttons
 back = CTkButton(master=root, text="Back", width=80)
 nextt = CTkButton(master=root, text="Next", width=80)
+
+# Subtracts two given lists
+def subtract(main_list, small_list):
+	return [i for i in main_list if i not in small_list]
 
 # To hide/show the next & back buttons
 def hide_show(curr_frame):
@@ -96,8 +89,28 @@ def eliminateGUI(frm):
 	eliminate_frame.grid(row=0, column=0, columnspan=2) # columnspan for the next & back buttons
 	return
 
+def eliminate(letters_not_there):
+
+	print(f"{letters_not_there=}")
+	global alphabets, all_words, possible_words
+	deleted_words = []
+	alphabets_not_there = list(letters_not_there)
+	alphabets = subtract(main_list=alphabets, small_list=alphabets_not_there)
+	print(f"{alphabets=}")
+	print(f"{alphabets_not_there=}")
+
+	for i in all_words:
+		for j in i:
+			if(j in alphabets_not_there):
+				deleted_words.append(i)
+				break
+	possible_words = subtract(main_list=all_words, small_list=deleted_words)
+	print(f"{possible_words=}")
+
 # Everything in the frame that asks for green tiled chars
 def greenTile(frm):
+
+	global global_str
 
 	# creating different functions to make sure no one gives a wrong input in each entry
 	def check1(cha1, index, mode):
@@ -232,15 +245,15 @@ def greenTile(frm):
 		else:
 			cha5 = c5.get( )
 		
-		global gstr
-		gstr = cha1+cha2+cha3+cha4+cha5
-		gstr = gstr.upper( )
+		global global_str
+		global_str = cha1+cha2+cha3+cha4+cha5
+		global_str = global_str.upper( )
 		yellowTile(green_tile_frame)
 
 	hide_show("green_tile_frame")
 	frm.grid_forget( )
 	root.geometry(f"{255}x{140}")
-	nextt.configure(command=string)
+	nextt.configure(command=lambda: [string( ),check( )])
 	# nextt.configure(command=lambda: yellowTile(green_tile_frame))
 
 	# Different lables on the screen
@@ -278,6 +291,20 @@ def greenTile(frm):
 	c5.grid(row=3,column=4,ipadx=3,sticky="ew")
 	green_tile_frame.grid(row=0, column=0, columnspan=3) # columnspan for the next button
 	return
+
+# Checks for words that are similar to the globat str
+def check( ):
+
+	global possible_words, global_str
+	temp = []
+	print(f"{global_str=}")
+	for i in possible_words:
+		for j in range(5):
+			if(global_str[j]!='.') and (global_str[j]!=i[j]):
+				temp.append(i)
+
+	possible_words = subtract(main_list=possible_words, small_list=temp)
+	print(f"{possible_words=}")				
 
 # Everything in the yellow tile frame
 def yellowTile(frm):
@@ -376,6 +403,7 @@ def yellowTile(frm):
 	hide_show("yellow_tile_frame")
 	frm.grid_forget( )
 	root.geometry(f"{230}x{144}")
+	nextt.configure(command=lambda: loadingScreen(yellow_tile_frame))
 
 	enter1 = CTkLabel(master=yellow_tile_frame, text="Enter the yellow tile letter(s) respectively")
 	enter2 = CTkLabel(master=yellow_tile_frame, text="Eg: if 'M','E' are yellow at the 3rd position\nthen you put those in the 3rd entry")
@@ -411,6 +439,12 @@ def yellowTile(frm):
 	c5.grid(row=3,column=4,ipadx=3,sticky="ew")
 	yellow_tile_frame.grid(row=0, column=0, columnspan=3)
 	return
+
+# Frame containing the progress bar
+def loadingScreen(frm):
+
+	hide_show("loading_frame")
+	frm.grid_forget( )
 
 start(hide_frame)
 
