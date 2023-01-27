@@ -25,7 +25,7 @@ eliminate_frame = CTkFrame(root)
 loading_frame = CTkFrame(root)
 green_tile_frame = CTkFrame(root, width=100)
 yellow_tile_frame = CTkFrame(root)
-loading_frame = CTkProgressBar(root, mode="determinate")
+loading_frame = CTkFrame(root)
 output_frame = CTkFrame(root)
 
 # Declaring and postitioning the back and next buttons
@@ -33,12 +33,23 @@ back = CTkButton(master=root, text="Back", width=80)
 nextt = CTkButton(master=root, text="Next", width=80)
 
 # Subtracts two given lists
-def subtract(main_list, small_list):
+def subtract(main_list: list, small_list:list) -> list:
 	return [i for i in main_list if i not in small_list]
 
+# Removes all duplicate characters in a string
+def duplicateRemover(str: str) -> str:
+	li = []
+	st = ""
+	for i in str:
+		if(i not in li):
+			li.append( )
+			st+=i
+	return st		
+
 # To hide/show the next & back buttons
-def hide_show(curr_frame):
-	if(curr_frame=="start_frame"):
+def hide_show(curr_frame: CTkFrame) -> None:
+
+	if(curr_frame=="start_frame") or (curr_frame=="loading_frame"):
 		back.grid_forget( )
 		nextt.grid_forget( )
 	elif(curr_frame=="green_tile_frame"):
@@ -53,7 +64,7 @@ def hide_show(curr_frame):
 	return
 
 # Everything in the start frame (main frame)
-def start(frm):
+def start(frm: CTkFrame) -> None:
 
 	hide_show("start_frame")
 	frm.grid_forget( )
@@ -69,7 +80,7 @@ def start(frm):
 	return
 
 # Everything in the frame that asks for grey tiled letters
-def eliminateGUI(frm):
+def eliminateGUI(frm: CTkFrame) -> None:
 
 	hide_show("eliminate_frame")
 	frm.grid_forget( )
@@ -89,11 +100,13 @@ def eliminateGUI(frm):
 	eliminate_frame.grid(row=0, column=0, columnspan=2) # columnspan for the next & back buttons
 	return
 
-def eliminate(letters_not_there):
+# Eliminates all characters that are not there
+def eliminate(letters_not_there: str) -> str:
 
 	print(f"{letters_not_there=}")
 	global alphabets, all_words, possible_words
 	deleted_words = []
+	letters_not_there = duplicateRemover(letters_not_there)
 	alphabets_not_there = list(letters_not_there)
 	alphabets = subtract(main_list=alphabets, small_list=alphabets_not_there)
 	print(f"{alphabets=}")
@@ -108,12 +121,12 @@ def eliminate(letters_not_there):
 	print(f"{possible_words=}")
 
 # Everything in the frame that asks for green tiled chars
-def greenTile(frm):
+def greenTile(frm: CTkFrame) -> None:
 
 	global global_str
 
 	# creating different functions to make sure no one gives a wrong input in each entry
-	def check1(cha1, index, mode):
+	def check1(cha1, index, mode) -> None:
 
 		cha1 = ch1.get( )
 		# for 1st entry
@@ -134,7 +147,7 @@ def greenTile(frm):
 			comment.configure(text="Valid")		
 			root.geometry(f"{255}x{140}")		
 		return
-	def check2(cha2, index, mode):
+	def check2(cha2, index, mode) -> None:
 
 		cha2 = ch2.get( )
 		# for 2nd entry
@@ -155,7 +168,7 @@ def greenTile(frm):
 			comment.configure(text="Valid")	
 			root.geometry(f"{255}x{140}")
 		return
-	def check3(cha3, index, mode):
+	def check3(cha3, index, mode) -> None:
 
 		cha3 = ch3.get( )
 		# for 3rd entry
@@ -176,7 +189,7 @@ def greenTile(frm):
 			comment.configure(text="Valid")
 			root.geometry(f"{255}x{140}")
 		return
-	def check4(cha4, index, mode):
+	def check4(cha4, index, mode) -> None:
 
 		cha4 = ch4.get( )
 		# for 4th entry 
@@ -197,7 +210,7 @@ def greenTile(frm):
 			comment.configure(text="Valid")	
 			root.geometry(f"{255}x{140}")
 		return
-	def check5(cha5, index, mode):
+	def check5(cha5, index, mode) -> None:
 
 		cha5 = ch5.get( )
 		#for 5th entry
@@ -219,7 +232,7 @@ def greenTile(frm):
 			root.geometry(f"{255}x{140}")
 		return
 	
-	def string( ):
+	def string( ) -> None:
 		if(c1.get()==""):
 			cha1 = "."
 		else:
@@ -293,7 +306,7 @@ def greenTile(frm):
 	return
 
 # Checks for words that are similar to the globat str
-def check( ):
+def check( ) -> None:
 
 	global possible_words, global_str
 	temp = []
@@ -307,9 +320,9 @@ def check( ):
 	print(f"{possible_words=}")				
 
 # Everything in the yellow tile frame
-def yellowTile(frm):
+def yellowTile(frm: CTkFrame) -> None:
 
-	def check1(cha1, index, mode):
+	def check1(cha1, index, mode) -> None:
 		
 		cha1 = ch1.get()
 		
@@ -327,7 +340,7 @@ def yellowTile(frm):
 			c4.configure(state="normal")
 			c5.configure(state="normal")
 			enter3.configure(text="Valid")
-	def check2(cha2, index, mode):
+	def check2(cha2, index, mode) -> None:
 		
 		cha2 = ch2.get()
 		
@@ -345,7 +358,7 @@ def yellowTile(frm):
 			c4.configure(state="normal")
 			c5.configure(state="normal")
 			enter3.configure(text="Valid")
-	def check3(cha3, index, mode):
+	def check3(cha3, index, mode) -> None:
 		
 		cha3 = ch3.get()
 		
@@ -363,7 +376,7 @@ def yellowTile(frm):
 			c4.configure(state="normal")
 			c5.configure(state="normal")
 			enter3.configure(text="Valid")
-	def check4(cha4, index, mode):
+	def check4(cha4, index, mode) -> None:
 		
 		cha4 = ch4.get()
 		
@@ -381,7 +394,7 @@ def yellowTile(frm):
 			c3.configure(state="normal")
 			c5.configure(state="normal")
 			enter3.configure(text="Valid")
-	def check5(cha5, index, mode):
+	def check5(cha5, index, mode) -> None:
 		
 		cha5 = ch5.get()
 		
@@ -400,10 +413,39 @@ def yellowTile(frm):
 			c4.configure(state="normal")
 			enter3.configure(text="Valid")
 	
+	def array( ) -> None:
+		if(c1.get()==""):
+			cha1 = "."
+		else:
+			cha1 = c1.get( ).upper( )
+		
+		if(c2.get()==""):
+			cha2 = "."
+		else:
+			cha2 = c2.get( ).upper( )
+		
+		if(c3.get()==""):
+			cha3 = "."
+		else:
+			cha3 = c3.get( ).upper( )
+		
+		if(c4.get()==""):
+			cha4 = "."
+		else:
+			cha4 = c4.get( ).upper( )
+		
+		if(c5.get()==""):
+			cha5 = "."
+		else:
+			cha5 = c5.get( ).upper( )
+		
+		list_of_chr = [cha1,cha2,cha3,cha4,cha5]
+		loadingScreen(yellow_tile_frame,list_of_chr)
+
 	hide_show("yellow_tile_frame")
 	frm.grid_forget( )
 	root.geometry(f"{230}x{144}")
-	nextt.configure(command=lambda: loadingScreen(yellow_tile_frame))
+	nextt.configure(command=array)
 
 	enter1 = CTkLabel(master=yellow_tile_frame, text="Enter the yellow tile letter(s) respectively")
 	enter2 = CTkLabel(master=yellow_tile_frame, text="Eg: if 'M','E' are yellow at the 3rd position\nthen you put those in the 3rd entry")
@@ -441,10 +483,23 @@ def yellowTile(frm):
 	return
 
 # Frame containing the progress bar
-def loadingScreen(frm):
+def loadingScreen(frm: CTkFrame, list_of_chr: list):
 
+	global possible_words
 	hide_show("loading_frame")
 	frm.grid_forget( )
+
+	temp = []
+	progress = CTkProgressBar(master=loading_frame, mode="determinate", height=20, corner_radius=0, progress_color="green")
+	progress.grid(row=0, column=0, columnspan=2, padx=10, pady=20)
+	# step = 100/len(possible_words)
+	
+	for i in possible_words:
+		if(i[0] in list_of_chr[0]) or (i[1] in list_of_chr[1]) or (i[2] in list_of_chr[2]) or (i[3] in list_of_chr[3]) or (i[4] in list_of_chr[4]):
+			temp.append(i)
+	possible_words = subtract(main_list=possible_words, small_list=temp)
+	
+	loading_frame.grid(row=0, column=0, sticky="eswn")
 
 start(hide_frame)
 
