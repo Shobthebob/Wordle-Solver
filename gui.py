@@ -1,9 +1,7 @@
 from tkinter import *
 from tkinter import ttk
 from customtkinter import *
-import warnings
-
-warnings.filterwarnings("ignore")
+import time
 
 root = CTk( )
 root.title("Wordle Solver")
@@ -23,7 +21,7 @@ hide_frame = CTkFrame(root)
 start_frame = CTkFrame(root)
 eliminate_frame = CTkFrame(root)
 loading_frame = CTkFrame(root)
-green_tile_frame = CTkFrame(root, width=100)
+green_tile_frame = CTkFrame(root)
 yellow_tile_frame = CTkFrame(root)
 loading_frame = CTkFrame(root)
 output_frame = CTkFrame(root)
@@ -37,14 +35,14 @@ def subtract(main_list: list, small_list:list) -> list:
 	return [i for i in main_list if i not in small_list]
 
 # Removes all duplicate characters in a string
-def duplicateRemover(str: str) -> str:
+def duplicateRemover(st: str) -> str:
 	li = []
-	st = ""
-	for i in str:
+	s = ""
+	for i in st:
 		if(i not in li):
-			li.append( )
-			st+=i
-	return st		
+			li.append(i)
+			s+=i
+	return s	
 
 # To hide/show the next & back buttons
 def hide_show(curr_frame: CTkFrame) -> None:
@@ -305,7 +303,7 @@ def greenTile(frm: CTkFrame) -> None:
 	green_tile_frame.grid(row=0, column=0, columnspan=3) # columnspan for the next button
 	return
 
-# Checks for words that are similar to the globat str
+# Checks for words that are similar to the global str
 def check( ) -> None:
 
 	global possible_words, global_str
@@ -417,27 +415,27 @@ def yellowTile(frm: CTkFrame) -> None:
 		if(c1.get()==""):
 			cha1 = "."
 		else:
-			cha1 = c1.get( ).upper( )
+			cha1 = duplicateRemover(c1.get( ).upper( ))
 		
 		if(c2.get()==""):
 			cha2 = "."
 		else:
-			cha2 = c2.get( ).upper( )
+			cha2 = duplicateRemover(c2.get( ).upper( ))
 		
 		if(c3.get()==""):
 			cha3 = "."
 		else:
-			cha3 = c3.get( ).upper( )
+			cha3 = duplicateRemover(c3.get( ).upper( ))
 		
 		if(c4.get()==""):
 			cha4 = "."
 		else:
-			cha4 = c4.get( ).upper( )
+			cha4 = duplicateRemover(c4.get( ).upper( ))
 		
 		if(c5.get()==""):
 			cha5 = "."
 		else:
-			cha5 = c5.get( ).upper( )
+			cha5 = duplicateRemover(c5.get( ).upper( ))
 		
 		list_of_chr = [cha1,cha2,cha3,cha4,cha5]
 		loadingScreen(yellow_tile_frame,list_of_chr)
@@ -486,20 +484,48 @@ def yellowTile(frm: CTkFrame) -> None:
 def loadingScreen(frm: CTkFrame, list_of_chr: list):
 
 	global possible_words
-	hide_show("loading_frame")
 	frm.grid_forget( )
-
-	temp = []
-	progress = CTkProgressBar(master=loading_frame, mode="determinate", height=20, corner_radius=0, progress_color="green")
-	progress.grid(row=0, column=0, columnspan=2, padx=10, pady=20)
-	# step = 100/len(possible_words)
+	hide_show("loading_frame")
 	
+	temp = []
+	st = ""
+	for i in list_of_chr:
+		time.sleep(0.025)
+		if(i=='.'):
+			continue
+		st+=i.upper()
+	st = duplicateRemover(st)
+	print( )
+	print(f"{st=}")
+	c = 0
+
 	for i in possible_words:
+		time.sleep(0.025)
+		print(f"Checking for {i}")
+		word = i
+		i = duplicateRemover(i)
+		print(f"After removing duplicates: {i}")
+		for j in i:
+			if(j in st):
+				print(f"Yes, {j} is in {st}")
+				c+=1
+		if(c<len(st)):
+			print(f"Removing {i} because c is {c}")
+			temp.append(word)
+		c=0
+		print()
+
+	print(f"Words to be removed: {temp}")
+	possible_words= subtract(possible_words,temp)				
+	print( )
+	temp = []
+
+	for i in possible_words:
+		time.sleep(0.025)
 		if(i[0] in list_of_chr[0]) or (i[1] in list_of_chr[1]) or (i[2] in list_of_chr[2]) or (i[3] in list_of_chr[3]) or (i[4] in list_of_chr[4]):
 			temp.append(i)
 	possible_words = subtract(main_list=possible_words, small_list=temp)
-	
-	loading_frame.grid(row=0, column=0, sticky="eswn")
+	print(f"{possible_words=}")
 
 start(hide_frame)
 
