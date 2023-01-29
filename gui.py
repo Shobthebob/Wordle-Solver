@@ -1,6 +1,7 @@
 from tkinter import *
 from tkinter import ttk
 from customtkinter import *
+from math import *
 import time
 
 root = CTk( )
@@ -47,18 +48,21 @@ def duplicateRemover(st: str) -> str:
 # To hide/show the next & back buttons
 def hide_show(curr_frame: CTkFrame) -> None:
 
-	if(curr_frame=="start_frame") or (curr_frame=="loading_frame"):
+	if(curr_frame=="start_frame"):
 		back.grid_forget( )
 		nextt.grid_forget( )
+	elif(curr_frame=="eliminate_frame"):
+		back.grid(row=1, column=0, ipadx=10)
+		nextt.grid(row=1, column=1, ipadx=10)
 	elif(curr_frame=="green_tile_frame"):
 		back.grid_forget( )
 		nextt.grid(row=1,column=1, ipadx=83, padx=4)
 	elif(curr_frame=="yellow_tile_frame"):
 		back.grid_forget( )
 		nextt.grid(row=1,column=1, ipadx=70)
-	else:
-		back.grid(row=1, column=0, ipadx=10)
-		nextt.grid(row=1, column=1, ipadx=10)
+	elif(curr_frame=="loading_frame"):
+		back.grid_forget( )
+		nextt.grid(row=1, column=0, ipadx=10)
 	return
 
 # Everything in the start frame (main frame)
@@ -481,12 +485,12 @@ def yellowTile(frm: CTkFrame) -> None:
 	return
 
 # Frame containing the progress bar
-def loadingScreen(frm: CTkFrame, list_of_chr: list):
+def loadingScreen(frm: CTkFrame, list_of_chr: list) -> None:
 
 	global possible_words
 	frm.grid_forget( )
 	hide_show("loading_frame")
-	
+
 	temp = []
 	st = ""
 	for i in list_of_chr:
@@ -500,7 +504,7 @@ def loadingScreen(frm: CTkFrame, list_of_chr: list):
 	c = 0
 
 	for i in possible_words:
-		time.sleep(0.025)
+		# time.sleep(0.025)
 		print(f"Checking for {i}")
 		word = i
 		i = duplicateRemover(i)
@@ -526,6 +530,31 @@ def loadingScreen(frm: CTkFrame, list_of_chr: list):
 			temp.append(i)
 	possible_words = subtract(main_list=possible_words, small_list=temp)
 	print(f"{possible_words=}")
+	nextt.configure(command=lambda: output(loading_frame))
+	loading_frame.grid(row=0,column=0)
+	return
+
+def output(frm: CTkFrame) -> None:
+
+	frm.grid_forget( ) 
+	n = int(sqrt(len(possible_words)))
+	rem = len(possible_words)-(n*n)
+	root.geometry(f"{500}x{500}")
+	print(f"{rem=}")
+	for i in range(n):
+		for j in range(n):
+			CTkLabel(output_frame, text=possible_words[i*n+j]).grid(row=i, column=j)
+	
+	c = 0
+	for i in range(rem,0,-1):
+		CTkLabel(output_frame, text=possible_words[-i]).grid(row=n+1, column=c)
+		c+=1
+		if(c>n-1):
+			n+=1
+			c=0
+	
+	output_frame.grid(row=0,column=0)
+	return
 
 start(hide_frame)
 
