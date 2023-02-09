@@ -534,6 +534,7 @@ def loadingScreen(frm: CTkFrame, list_of_chr: list) -> None:
 	loading_frame.grid(row=0,column=0)
 	return
 
+# Output frame
 def output(frm: CTkFrame) -> None:
 
 	frm.grid_forget( ) 
