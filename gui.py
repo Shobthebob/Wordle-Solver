@@ -2,7 +2,6 @@ from tkinter import *
 from tkinter import ttk
 from customtkinter import *
 from math import *
-import time
 
 root = CTk( )
 root.title("Wordle Solver")
@@ -21,10 +20,8 @@ alphabets = ['A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q'
 hide_frame = CTkFrame(root)
 start_frame = CTkFrame(root)
 eliminate_frame = CTkFrame(root)
-loading_frame = CTkFrame(root)
 green_tile_frame = CTkFrame(root)
 yellow_tile_frame = CTkFrame(root)
-loading_frame = CTkFrame(root)
 output_frame = CTkFrame(root)
 
 # Declaring and postitioning the back and next buttons
@@ -60,9 +57,9 @@ def hide_show(curr_frame: CTkFrame) -> None:
 	elif(curr_frame=="yellow_tile_frame"):
 		back.grid_forget( )
 		nextt.grid(row=1,column=1, ipadx=70)
-	elif(curr_frame=="loading_frame"):
+	else:
 		back.grid_forget( )
-		nextt.grid(row=1, column=0, ipadx=10)
+		nextt.grid_forget( )
 	return
 
 # Everything in the start frame (main frame)
@@ -415,7 +412,7 @@ def yellowTile(frm: CTkFrame) -> None:
 			c4.configure(state="normal")
 			enter3.configure(text="Valid")
 	
-	def array( ) -> None:
+	def array(possible_words) -> None:
 		if(c1.get()==""):
 			cha1 = "."
 		else:
@@ -442,14 +439,49 @@ def yellowTile(frm: CTkFrame) -> None:
 			cha5 = duplicateRemover(c5.get( ).upper( ))
 		
 		list_of_chr = [cha1,cha2,cha3,cha4,cha5]
-		loadingScreen(yellow_tile_frame,list_of_chr)
+		temp = []
+		st = ""
+		for i in list_of_chr:
+			if(i=='.'):
+				continue
+			st+=i.upper()
+		st = duplicateRemover(st)
+		print( )
+		print(f"{st=}")
+		c = 0
+
+		for i in possible_words:
+			print(f"Checking for {i}")
+			word = i
+			i = duplicateRemover(i)
+			print(f"After removing duplicates: {i}")
+			for j in i:
+				if(j in st):
+					print(f"Yes, {j} is in {st}")
+					c+=1
+			if(c<len(st)):
+				print(f"Removing {i} because c is {c}")
+				temp.append(word)
+			c=0
+			print()
+
+		print(f"Words to be removed: {temp}")
+		possible_words= subtract(possible_words,temp)				
+		print( )
+		temp = []
+
+		for i in possible_words:
+			if(i[0] in list_of_chr[0]) or (i[1] in list_of_chr[1]) or (i[2] in list_of_chr[2]) or (i[3] in list_of_chr[3]) or (i[4] in list_of_chr[4]):
+				temp.append(i)
+		possible_words = subtract(main_list=possible_words, small_list=temp)
+		output(yellow_tile_frame, possible_words)
 
 	hide_show("yellow_tile_frame")
 	frm.grid_forget( )
 	root.geometry(f"{230}x{144}")
-	nextt.configure(command=array)
+	nextt.configure(command=lambda: array(possible_words))
 
-	enter1 = CTkLabel(master=yellow_tile_frame, text="Enter the yellow tile letter(s) respectively")
+	enter1 = CTkLabel(master=yellow_tile_frame, text="Enter the yellow/blue tile letter(s) respectively")
 	enter2 = CTkLabel(master=yellow_tile_frame, text="Eg: if 'M','E' are yellow at the 3rd position\nthen you put those in the 3rd entry")
 	enter3 = CTkLabel(master=yellow_tile_frame, text="")
 
@@ -484,58 +516,8 @@ def yellowTile(frm: CTkFrame) -> None:
 	yellow_tile_frame.grid(row=0, column=0, columnspan=3)
 	return
 
-# Frame containing the progress bar
-def loadingScreen(frm: CTkFrame, list_of_chr: list) -> None:
-
-	global possible_words
-	frm.grid_forget( )
-	hide_show("loading_frame")
-
-	temp = []
-	st = ""
-	for i in list_of_chr:
-		time.sleep(0.025)
-		if(i=='.'):
-			continue
-		st+=i.upper()
-	st = duplicateRemover(st)
-	print( )
-	print(f"{st=}")
-	c = 0
-
-	for i in possible_words:
-		# time.sleep(0.025)
-		print(f"Checking for {i}")
-		word = i
-		i = duplicateRemover(i)
-		print(f"After removing duplicates: {i}")
-		for j in i:
-			if(j in st):
-				print(f"Yes, {j} is in {st}")
-				c+=1
-		if(c<len(st)):
-			print(f"Removing {i} because c is {c}")
-			temp.append(word)
-		c=0
-		print()
-
-	print(f"Words to be removed: {temp}")
-	possible_words= subtract(possible_words,temp)				
-	print( )
-	temp = []
-
-	for i in possible_words:
-		time.sleep(0.025)
-		if(i[0] in list_of_chr[0]) or (i[1] in list_of_chr[1]) or (i[2] in list_of_chr[2]) or (i[3] in list_of_chr[3]) or (i[4] in list_of_chr[4]):
-			temp.append(i)
-	possible_words = subtract(main_list=possible_words, small_list=temp)
-	print(f"{possible_words=}")
-	nextt.configure(command=lambda: output(loading_frame))
-	loading_frame.grid(row=0,column=0)
-	return
-
 # Output frame
-def output(frm: CTkFrame) -> None:
+def output(frm: CTkFrame, possible_words: list) -> None:
 
 	frm.grid_forget( ) 
 	n = int(sqrt(len(possible_words)))
@@ -545,7 +527,6 @@ def output(frm: CTkFrame) -> None:
 	for i in range(n):
 		for j in range(n):
 			CTkLabel(output_frame, text=possible_words[i*n+j]).grid(row=i, column=j)
-	
 	c = 0
 	for i in range(rem,0,-1):
 		CTkLabel(output_frame, text=possible_words[-i]).grid(row=n+1, column=c)
@@ -558,5 +539,4 @@ def output(frm: CTkFrame) -> None:
 	return
 
 start(hide_frame)
-
 root.mainloop( )
