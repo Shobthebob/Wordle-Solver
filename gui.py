@@ -42,7 +42,7 @@ def duplicateRemover(st: str) -> str:
 			s+=i
 	return s	
 
-# To hide/show the next & back buttons
+# To hide/show the next/back buttons
 def hide_show(curr_frame: CTkFrame) -> None:
 
 	if(curr_frame=="start_frame"):
@@ -57,6 +57,8 @@ def hide_show(curr_frame: CTkFrame) -> None:
 	elif(curr_frame=="yellow_tile_frame"):
 		back.grid_forget( )
 		nextt.grid(row=1,column=1, ipadx=70)
+	elif(curr_frame=="output_frame"):
+		nextt.grid(row=1,column=0, ipadx=0)
 	else:
 		back.grid_forget( )
 		nextt.grid_forget( )
@@ -102,14 +104,11 @@ def eliminateGUI(frm: CTkFrame) -> None:
 # Eliminates all characters that are not there
 def eliminate(letters_not_there: str) -> str:
 
-	print(f"{letters_not_there=}")
 	global alphabets, all_words, possible_words
 	deleted_words = []
 	letters_not_there = duplicateRemover(letters_not_there)
 	alphabets_not_there = list(letters_not_there)
 	alphabets = subtract(main_list=alphabets, small_list=alphabets_not_there)
-	print(f"{alphabets=}")
-	print(f"{alphabets_not_there=}")
 
 	for i in all_words:
 		for j in i:
@@ -117,7 +116,6 @@ def eliminate(letters_not_there: str) -> str:
 				deleted_words.append(i)
 				break
 	possible_words = subtract(main_list=all_words, small_list=deleted_words)
-	print(f"{possible_words=}")
 
 # Everything in the frame that asks for green tiled chars
 def greenTile(frm: CTkFrame) -> None:
@@ -266,7 +264,6 @@ def greenTile(frm: CTkFrame) -> None:
 	frm.grid_forget( )
 	root.geometry(f"{255}x{140}")
 	nextt.configure(command=lambda: [string( ),check( )])
-	# nextt.configure(command=lambda: yellowTile(green_tile_frame))
 
 	# Different lables on the screen
 	enter1 = CTkLabel(master=green_tile_frame, text="Type in the green tile letters in their positions")
@@ -309,14 +306,14 @@ def check( ) -> None:
 
 	global possible_words, global_str
 	temp = []
-	print(f"{global_str=}")
 	for i in possible_words:
 		for j in range(5):
 			if(global_str[j]!='.') and (global_str[j]!=i[j]):
 				temp.append(i)
 
 	possible_words = subtract(main_list=possible_words, small_list=temp)
-	print(f"{possible_words=}")				
+	possible_words = subtract(main_list=possible_words, small_list=temp)
+	possible_words = subtract(main_list=possible_words, small_list=temp)						
 
 # Everything in the yellow tile frame
 def yellowTile(frm: CTkFrame) -> None:
@@ -446,28 +443,19 @@ def yellowTile(frm: CTkFrame) -> None:
 				continue
 			st+=i.upper()
 		st = duplicateRemover(st)
-		print( )
-		print(f"{st=}")
 		c = 0
 
 		for i in possible_words:
-			print(f"Checking for {i}")
 			word = i
 			i = duplicateRemover(i)
-			print(f"After removing duplicates: {i}")
 			for j in i:
 				if(j in st):
-					print(f"Yes, {j} is in {st}")
 					c+=1
 			if(c<len(st)):
-				print(f"Removing {i} because c is {c}")
 				temp.append(word)
 			c=0
-			print()
 
-		print(f"Words to be removed: {temp}")
 		possible_words= subtract(possible_words,temp)				
-		print( )
 		temp = []
 
 		for i in possible_words:
@@ -481,8 +469,8 @@ def yellowTile(frm: CTkFrame) -> None:
 	root.geometry(f"{230}x{144}")
 	nextt.configure(command=lambda: array(possible_words))
 
-	enter1 = CTkLabel(master=yellow_tile_frame, text="Enter the yellow/blue tile letter(s) respectively")
-	enter2 = CTkLabel(master=yellow_tile_frame, text="Eg: if 'M','E' are yellow at the 3rd position\nthen you put those in the 3rd entry")
+	enter1 = CTkLabel(master=yellow_tile_frame, text="Enter the yellow tile letter(s) respectively")
+	enter2 = CTkLabel(master=yellow_tile_frame, text="Multiple characters can be in one entry")
 	enter3 = CTkLabel(master=yellow_tile_frame, text="")
 
 	# The values that we input in the 5 entry boxes
@@ -520,10 +508,11 @@ def yellowTile(frm: CTkFrame) -> None:
 def output(frm: CTkFrame, possible_words: list) -> None:
 
 	frm.grid_forget( ) 
+	hide_show("output_frame")
 	n = int(sqrt(len(possible_words)))
+	num = n
 	rem = len(possible_words)-(n*n)
-	root.geometry(f"{500}x{500}")
-	print(f"{rem=}")
+	word = CTkLabel(root, text=possible_words[0])
 	for i in range(n):
 		for j in range(n):
 			CTkLabel(output_frame, text=possible_words[i*n+j]).grid(row=i, column=j)
@@ -534,7 +523,14 @@ def output(frm: CTkFrame, possible_words: list) -> None:
 		if(c>n-1):
 			n+=1
 			c=0
-	
+	totalW = word.winfo_reqwidth( )*num 
+	nextt.configure(text="Exit", width=totalW, command=lambda: exit( ))
+	if(rem!=0):
+		n+=1
+	totalH = word.winfo_reqheight( )*n + nextt.winfo_reqheight( )
+	if(num<4):
+		totalW = totalW + 8;
+	root.geometry("{}x{}".format(totalW,totalH))
 	output_frame.grid(row=0,column=0)
 	return
 
