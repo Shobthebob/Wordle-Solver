@@ -21,9 +21,9 @@ To run this program, all you need is:
 A visual representation of whats actually happening
 
 ![image](https://github.com/Shobthebob/Wordle-Solver/assets/77617762/3946eaee-a848-4eb5-8dea-0ef73b184eca)
-![image](https://github.com/Shobthebob/Wordle-Solver/assets/77617762/7ddb23ea-4a91-4fea-9b6a-5514879a5772)
-![image](https://github.com/Shobthebob/Wordle-Solver/assets/77617762/899b1ec3-2d46-4f06-8f54-8d449fe10cf9)
-![image](https://github.com/Shobthebob/Wordle-Solver/assets/77617762/cf95cf38-6c1c-4918-ae0f-07a8ef44cdea)
+![image](https://github.com/Shobthebob/Wordle-Solver/assets/77617762/dbab7a25-bd2a-4bec-b340-6dfaa3448758)
+![image](https://github.com/Shobthebob/Wordle-Solver/assets/77617762/468e9b2f-db2c-4032-b5bc-d41b4b12a315)
+![image](https://github.com/Shobthebob/Wordle-Solver/assets/77617762/72afcf0c-cdc5-4dee-a12f-691f0ca1bd1f)
 ![image](https://github.com/Shobthebob/Wordle-Solver/assets/77617762/818635fd-eafa-4a77-90a4-dd1bf8783518)
 
 
