@@ -5,6 +5,9 @@ from math import *
 
 root = CTk( )
 root.title("Wordle Solver")
+logo = PhotoImage(file="build\\gui\\logo.png")
+root.iconphoto(False, logo)
+root.resizable(False,False)
 set_appearance_mode("System")
 set_default_color_theme("green")
 
@@ -85,7 +88,7 @@ def eliminateGUI(frm: CTkFrame) -> None:
 
 	hide_show("eliminate_frame")
 	frm.grid_forget( )
-	root.geometry(f"{220}x{134}")
+	root.geometry(f"{219}x{134}")
 
 	enter = CTkLabel(master=eliminate_frame, text="Enter the letters that are NOT there")
 	comment = CTkLabel(master=eliminate_frame, text="[GREY TILED LETTERS]")
