@@ -5,7 +5,7 @@ from math import *
 
 root = CTk( )
 root.title("Wordle Solver")
-logo = PhotoImage(file="build\\gui\\logo.png")
+logo = PhotoImage(file="logo.png")
 root.iconphoto(False, logo)
 root.resizable(False,False)
 set_appearance_mode("System")
