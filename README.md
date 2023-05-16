@@ -1,7 +1,7 @@
 
 # Wordle Solver
 
-This application is a solver for the five letter word guessing - wordle. This solver was made in python and is free for everyone to use.
+This application is a solver for the five letter word guessing - wordle. This solver was made in python and is free for everyone to use. There might be other solvers out there too but this is my approach to it.
 
 
 
