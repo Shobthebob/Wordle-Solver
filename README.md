@@ -3,15 +3,15 @@
 
 This application is a solver for the five letter word guessing - wordle. This solver was made in python and is free for everyone to use. There might be other solvers out there too but this is my approach to it.<br>
 
-This application has only be tested on windows yet. Bug for other operating systems, if any, will soon be fixed.
+This application has only been tested on Windows yet. Bugs exist for other operating systems, but they will soon be fixed ASAP.
 
 
 ## Requirements
 
-To run this program, all you need is:
+To run this program, all you need is the following:
 
-- python 3
-- python's customtkinter module
+- Python 3
+- Python's customtkinter module
 
 ```bash
   pip install customtkinter
