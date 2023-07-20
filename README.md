@@ -1,5 +1,6 @@
-
 # Wordle Solver
+[![Static Badge](https://img.shields.io/badge/LICENSE-MIT-94F037)](https://github.com/Shobthebob/Wordle-Solver/blob/main/LICENSE) 
+![Static Badge](https://img.shields.io/badge/WINDOWS%20COMPATIBLE-0078D7)
 
 This application is a solver for the five letter word guessing - wordle. This solver was made in python and is free for everyone to use. There might be other solvers out there too but this is my approach to it.<br>
 
@@ -25,7 +26,3 @@ A visual representation of whats actually happening
 ![image](https://github.com/Shobthebob/Wordle-Solver/assets/77617762/4c3b2082-57eb-4c63-a94f-3f3b10517b4e)<br>
 ![image](https://github.com/Shobthebob/Wordle-Solver/assets/77617762/6060f492-d1f3-4f3f-b938-9968700013a2)<br>
 ![image](https://github.com/Shobthebob/Wordle-Solver/assets/77617762/818635fd-eafa-4a77-90a4-dd1bf8783518)
-
-
-
-
